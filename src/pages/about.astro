@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const pageTitle = '关于'
+const indentity = {
+  firstName: 'Astro',
+  country: 'China',
+  occupation: 'Web 开发者',
+  hobbies: ['学习', '编程', '阅读', '旅行'],
+}
+
+const skills = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js']
+
+const happy = true
+const finished = true
+const goal = 3
+
+const skillColor = 'navy'
+const fontWeight = 'bold'
+const textCase = 'uppercase'
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <style define:vars={{ skillColor, fontWeight, textCase }}>
+    h1 {
+      color: purple;
+      font-size: 4rem;
+    }
+    .skill {
+      color: var(--skillColor);
+      font-weight: var(--fontWeight);
+      text-transform: var(--textCase);
+    }
+  </style>
+  <p>我是谁</p>
+  <ul>
+    <li>名字：{indentity.firstName}</li>
+    <li>国家：{indentity.country}</li>
+    <li>职业：{indentity.occupation}</li>
+    <li>爱好：{indentity.hobbies.join(', ')}</li>
+  </ul>
+  <p>我的技能</p>
+  <ul>
+    {skills.map((skill) => <li class="skill">{skill}</li>)}
+  </ul>
+
+  <p>
+    {happy && <p>我乐意</p>}
+    {finished && <p>我完成了！</p>}
+    {goal === 3 ? <p>3天内完成个目标</p> : <p>3天内没完成个目标</p>}
+  </p>
+</BaseLayout>

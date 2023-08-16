@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+export const prerender = false;
+const { id } = Astro.params;
+const product = await fetch(`https://dummyjson.com/products/${id}`).then((res) => res.json());
+---
+
+<BaseLayout pageTitle={product.title}>
+  <h2>{product.description}</h2>
+  <img src={product.thumbnail} alt={product.description}>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const prerender = false;
+const pageTitle = '商品列表';
+
+const urlObject = new URL(Astro.request.url);
+const searchParams = urlObject.searchParams;
+const skip = searchParams.get('skip') || 0;
+const limit = searchParams.get('limit') || 10;
+
+const { products, total } = await fetch(`https://dummyjson.com/products?skip=${skip}&limit=${limit}`).then((res) => res.json());
+const pageNumber = Math.ceil(total / limit);
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <ul>
+    {products.map((product) => (
+      <li key={product.id}>
+        <a href={`/products/${product.id}`}>{product.title}</a>
+      </li>
+      ))
+    }
+  </ul>
+
+  <p>
+    {Array.from({ length: pageNumber }).map((_, index) => (
+      <a class="page" href={`/products?skip=${index * limit}&limit=${limit}`}>{index + 1}</a>
+    ))}
+  </p>
+</BaseLayout>
+
+<style>
+  .page {
+    display: inline-block;
+    margin-right: 10px;
+  }
+</style>
